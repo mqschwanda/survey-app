@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 
 import 'surveyjs-editor/surveyeditor.css';
@@ -6,7 +5,7 @@ import {
   SurveyJSEditor,
   SurveyKnockout,
   configureWidgets,
-} from './modules/survey';
+} from '../../../modules/survey';
 
 configureWidgets(SurveyKnockout);
 

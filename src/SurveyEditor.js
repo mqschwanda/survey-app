@@ -1,52 +1,30 @@
-import React, { Component } from "react";
-import * as SurveyJSEditor from "surveyjs-editor";
-import * as SurveyKo from "survey-knockout";
-import "surveyjs-editor/surveyeditor.css";
 
-import "jquery-ui/themes/base/all.css";
-import "nouislider/distribute/nouislider.css";
-import "select2/dist/css/select2.css";
-import "bootstrap-slider/dist/css/bootstrap-slider.css";
+import React, { Component } from 'react';
 
-import "jquery-bar-rating/dist/themes/css-stars.css";
-import "jquery-bar-rating/dist/themes/fontawesome-stars.css";
+import 'surveyjs-editor/surveyeditor.css';
+import {
+  SurveyJSEditor,
+  SurveyKnockout,
+  configureWidgets,
+} from './modules/survey';
 
-import $ from "jquery";
-import "jquery-ui/ui/widgets/datepicker.js";
-import "select2/dist/js/select2.js";
-import "jquery-bar-rating";
-
-import "icheck/skins/square/blue.css";
-
-import * as widgets from "surveyjs-widgets";
-
-widgets.icheck(SurveyKo, $);
-widgets.select2(SurveyKo, $);
-widgets.inputmask(SurveyKo);
-widgets.jquerybarrating(SurveyKo, $);
-widgets.jqueryuidatepicker(SurveyKo, $);
-widgets.nouislider(SurveyKo);
-widgets.select2tagbox(SurveyKo, $);
-widgets.signaturepad(SurveyKo);
-widgets.sortablejs(SurveyKo);
-widgets.ckeditor(SurveyKo);
-widgets.autocomplete(SurveyKo, $);
-widgets.bootstrapslider(SurveyKo);
+configureWidgets(SurveyKnockout);
 
 class SurveyEditor extends Component {
   editor;
+  _id = 'SurveyEditor'
   componentDidMount() {
-    let editorOptions = { showEmbededSurveyTab: true };
-    this.editor = new SurveyJSEditor.SurveyEditor(
-      "surveyEditorContainer",
-      editorOptions
-    );
-    this.editor.saveSurveyFunc = this.saveMySurvey;
+    this.configureSurvey();
+  }
+  configureSurvey = () => {
+    let options = { showEmbededSurveyTab: true };
+    this.editor = new SurveyJSEditor.SurveyEditor(this._id, options);
+    this.editor.saveSurveyFunc = this.saveSurvey;
   }
   render() {
-    return <div id="surveyEditorContainer" />;
+    return <div id={this._id} />;
   }
-  saveMySurvey = () => {
+  saveSurvey = () => {
     console.log(JSON.stringify(this.editor.text));
   };
 }

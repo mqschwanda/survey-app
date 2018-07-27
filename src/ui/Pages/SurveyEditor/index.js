@@ -7,24 +7,35 @@ import {
   configureWidgets,
 } from '../../../modules/survey';
 
+import { Surveys } from '../../../modules/firestore';
+
 configureWidgets(SurveyKnockout);
 
 class SurveyEditor extends Component {
   editor;
-  _id = 'SurveyEditor'
+
+  static defaultProps = {
+    _id: 'SurveyEditor',
+    options: { showEmbededSurveyTab: true },
+  }
+
   componentDidMount() {
     this.configureSurvey();
   }
   configureSurvey = () => {
-    let options = { showEmbededSurveyTab: true };
-    this.editor = new SurveyJSEditor.SurveyEditor(this._id, options);
+    const { _id, options } = this.props;
+    this.editor = new SurveyJSEditor.SurveyEditor(_id, options);
     this.editor.saveSurveyFunc = this.saveSurvey;
   }
   render() {
-    return <div id={this._id} />;
+    return <div id={this.props._id} />;
   }
   saveSurvey = () => {
-    console.log(JSON.stringify(this.editor.text));
+    const survey = JSON.parse(this.editor.text);
+    const { _id } = this.props;
+
+    if (_id === 'SurveyEditor') Surveys.add(survey);
+    else Surveys.doc(_id).set(survey)
   };
 }
 

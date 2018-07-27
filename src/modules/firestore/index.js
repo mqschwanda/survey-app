@@ -9,12 +9,7 @@ firebase.initializeApp(config);
 export const db = firebase.firestore();
 
 export const Users = db.collection('users');
-
-Users.get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, ' => ', doc.data());
-  });
-})
+export const Surveys = db.collection('surveys');
+export const Results = db.collection('results');
 
 export default firebase;

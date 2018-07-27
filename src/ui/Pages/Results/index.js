@@ -4,6 +4,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import promiseContainer from '../../../modules/promise-container';
 import { Results, mapDocs } from '../../../modules/firestore';
 
+// import { Main } from '../../Layouts';
 
 class ResultsComponent extends Component {
   render() {

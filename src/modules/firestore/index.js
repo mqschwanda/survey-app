@@ -12,4 +12,10 @@ export const Users = db.collection('users');
 export const Surveys = db.collection('surveys');
 export const Results = db.collection('results');
 
+export const mapDoc = doc => doc.exists
+  ? { _id: doc.id, ...doc.data() }
+  : {};
+
+export const mapDocs = (results) => results.docs.map(mapDoc)
+
 export default firebase;

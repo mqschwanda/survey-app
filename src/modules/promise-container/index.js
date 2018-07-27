@@ -1,19 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import reactPromiseContainer from 'react-promise-container';
-
-
-const LoadingComponent = () => (
-  <p>loading...</p>
-);
-
-const ErrorComponent = (error) => (
-  <p>{error.message || error}</p>
-)
 
 export const promiseContainer = (mapPromiseToProps) => (
   Component,
-  LoadingComponent = LoadingComponent,
-  ErrorComponent = ErrorComponent,
+  LoadingComponent = () => (<p>loading...</p>),
+  ErrorComponent = (error) => (<p>{error.message || error}</p>),
 ) => reactPromiseContainer(mapPromiseToProps)(
   Component,
   LoadingComponent,

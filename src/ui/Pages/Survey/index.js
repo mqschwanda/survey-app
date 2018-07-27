@@ -5,7 +5,7 @@ import 'survey-react/survey.css';
 
 import promiseContainer from '../../../modules/promise-container';
 import { Survey, configureWidgets } from '../../../modules/survey';
-import { Surveys, Results } from '../../../modules/firestore';
+import { Surveys, Results, mapDoc } from '../../../modules/firestore';
 
 import('icheck');
 configureWidgets(Survey);
@@ -37,10 +37,7 @@ class App extends Component {
 }
 
 const surveyContainer = promiseContainer((props) => ({
-  survey: Surveys
-    .doc(props.match.params._id)
-    .get()
-    .then(doc => doc.exists ? doc.data() : {}),
+  survey: Surveys.doc(props.match.params._id).get().then(mapDoc),
 }));
 
 export default surveyContainer(App);

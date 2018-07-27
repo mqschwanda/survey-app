@@ -1,42 +1,62 @@
 import React, { Component } from 'react';
 
 import 'surveyjs-editor/surveyeditor.css';
+
+import promiseContainer from '../../../modules/promise-container';
 import {
   SurveyJSEditor,
   SurveyKnockout,
   configureWidgets,
 } from '../../../modules/survey';
 
-import { Surveys } from '../../../modules/firestore';
+import { Surveys, mapDoc } from '../../../modules/firestore';
 
 configureWidgets(SurveyKnockout);
+
+
+const getSurveyId = (props) => props.match.params._id;
 
 class SurveyEditor extends Component {
   editor;
 
   static defaultProps = {
-    _id: 'SurveyEditor',
     options: { showEmbededSurveyTab: true },
   }
 
   componentDidMount() {
     this.configureSurvey();
   }
+
   configureSurvey = () => {
-    const { _id, options } = this.props;
+    const { _id } = this.props.match.params;
+    const { options } = this.props;
     this.editor = new SurveyJSEditor.SurveyEditor(_id, options);
     this.editor.saveSurveyFunc = this.saveSurvey;
+    this.editor.text = this.surveyExists()
+      ? JSON.stringify(this.props.survey)
+      : '';
   }
-  render() {
-    return <div id={this.props._id} />;
-  }
+
   saveSurvey = () => {
     const survey = JSON.parse(this.editor.text);
-    const { _id } = this.props;
+    const { _id } = this.props.match.params;
 
-    if (_id === 'SurveyEditor') Surveys.add(survey);
-    else Surveys.doc(_id).set(survey)
+    if (this.surveyExists()) Surveys.doc(_id).set(survey);
+    else Surveys.add(survey);
   };
+
+  surveyExists = (props = this.props) =>
+    typeof this.getSurveyId(props) === 'string' && this.getSurveyId(props).length > 0
+
+  getSurveyId = (props = this.props) => getSurveyId(props)
+
+  render() {
+    return <div id={this.getSurveyId()} />;
+  }
 }
 
-export default SurveyEditor;
+const surveyContainer = promiseContainer((props) => ({
+  survey: Surveys.doc(getSurveyId(props)).get().then(mapDoc),
+}));
+
+export default surveyContainer(SurveyEditor);

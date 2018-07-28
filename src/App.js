@@ -1,4 +1,4 @@
-import './modules/firestore'
+import './modules/firestore';
 import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';

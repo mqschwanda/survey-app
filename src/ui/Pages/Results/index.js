@@ -1,27 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import promiseContainer from '../../../modules/promise-container';
-import { Results, mapDocs } from '../../../modules/firestore';
+import { getResults } from '../../../modules/firestore/api';
 
-// import { Main } from '../../Layouts';
+const mapFirebaseData = (props) => ({ results: getResults() });
 
-class ResultsComponent extends Component {
-  render() {
-    return (
-      <ListGroup>
-        {this.props.results.map(({ _id, ...results }) => (
-          <ListGroupItem key={_id}>
-            {JSON.stringify(results.data)}
-          </ListGroupItem>
-        ))}
-      </ListGroup>
-    );
-  }
-}
-
-const resultsContainer = promiseContainer((props) => ({
-  results: Results.get().then(mapDocs),
-}));
-
-export default resultsContainer(ResultsComponent);
+export default promiseContainer(mapFirebaseData)((props) => (
+  <ListGroup>
+    {props.results.map(({ _id, data }) => (
+      <ListGroupItem key={_id}>
+        {JSON.stringify(data)}
+      </ListGroupItem>
+    ))}
+  </ListGroup>
+));

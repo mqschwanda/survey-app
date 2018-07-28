@@ -1,32 +1,31 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 import promiseContainer from '../../../modules/promise-container';
-import { Surveys, mapDocs } from '../../../modules/firestore';
+import { addSurvey, getSurveys } from '../../../modules/firestore/api';
 
 
 class SurveysComponent extends Component {
-  goToSurvey = (_id) => () => this.props.history.push(`editor/${_id}`)
-  addSurvey = () => {
-    Surveys
-      .add({ title: 'New Survey' })
-      .then(({ id }) => {
-        this.goToSurvey(id)(/* hack onClick func call */)
-      });
-  }
+  goToSurvey = (_id) => (/* hack onClick func call */) =>
+    this.props.history.push(`editor/${_id}`)
+  createNewSurvey = () =>
+    addSurvey({ title: 'New Survey' })
+      .then(({ id }) => this.goToSurvey(id)(/* hack onClick func call */))
+
   render() {
     return (
       <ListGroup>
-        <ListGroupItem onClick={this.addSurvey}>
-          Create New Survey
+        <ListGroupItem>
+          <Button onClick={this.createNewSurvey}>
+            Create New Survey
+          </Button>
         </ListGroupItem>
-        {this.props.surveys.map(({ _id, ...survey }) => (
+        {this.props.surveys.map(({ _id, title }) => (
           <ListGroupItem
             key={_id}
             onClick={this.goToSurvey(_id)}
-            {...this.props}
           >
-            {survey.title}
+            {title}
           </ListGroupItem>
         ))}
       </ListGroup>
@@ -34,8 +33,5 @@ class SurveysComponent extends Component {
   }
 }
 
-const surveyContainer = promiseContainer((props) => ({
-  surveys: Surveys.get().then(mapDocs),
-}));
-
-export default surveyContainer(SurveysComponent);
+const mapFirebaseData = (props) => ({ surveys: getSurveys() });
+export default promiseContainer(mapFirebaseData)(SurveysComponent);

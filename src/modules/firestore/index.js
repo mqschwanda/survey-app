@@ -24,8 +24,8 @@ export const getDocs = (Collection, get) =>
 export const setDoc = (Collection, doc, set) =>
   Collection.doc(doc).set(set);
 
-export const addDoc = (Collection, doc, add) =>
-  Collection.doc(doc).add(add);
+export const addDoc = (Collection, add) =>
+  Collection.add(add);
 
 
 export const ui = firebaseui

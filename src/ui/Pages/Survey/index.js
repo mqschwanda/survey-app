@@ -8,7 +8,10 @@ const getSurveyFromRouter = props => props.match.params._id;
 export default surveyContainer(getSurveyFromRouter)(({ survey }) => (
   <Survey
     survey={survey}
-    onComplete={({ data }) =>
-      addResult({ _userId: getCurrentUser().uid, _surveyId: survey._id, data })}
+    onComplete={({ data }) => addResult({
+      _userId: getCurrentUser().uid,
+       _surveyId: survey._id,
+       data,
+    })}
   />
 ));

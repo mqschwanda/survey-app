@@ -8,18 +8,19 @@ firebase.initializeApp(config);
 // Initialize Cloud Firestore through Firebase
 export const db = firebase.firestore();
 
-export const mapDoc = doc => doc.exists
-  ? { _id: doc.id, ...doc.data() }
-  : {};
+export const mapDoc = doc => doc.exists && { _id: doc.id, ...doc.data() };
 
 export const mapDocs = (results) => results.docs.map(mapDoc);
 
 export const getDoc = (Collection, doc) =>
   Collection.doc(doc).get().then(mapDoc);
+
 export const getDocs = (Collection, get) =>
   Collection.get(get).then(mapDocs);
+
 export const setDoc = (Collection, doc, set) =>
   Collection.doc(doc).set(set);
+
 export const addDoc = (Collection, doc, add) =>
   Collection.doc(doc).add(add);
 

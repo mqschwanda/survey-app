@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 
-import promiseContainer from '../../../modules/promise-container';
-import { addSurvey, getSurveys } from '../../../modules/firestore/api';
+import { addSurvey } from '../../../modules/firestore/api';
+import { surveysContainer } from '../../../modules/firestore/containers';
 
 
 class SurveysComponent extends Component {
@@ -33,5 +33,4 @@ class SurveysComponent extends Component {
   }
 }
 
-const mapFirebaseData = (props) => ({ surveys: getSurveys() });
-export default promiseContainer(mapFirebaseData)(SurveysComponent);
+export default surveysContainer()(SurveysComponent);

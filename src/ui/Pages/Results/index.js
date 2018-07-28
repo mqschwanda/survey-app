@@ -1,14 +1,11 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import { resultsContainer } from '../../../modules/firestore/containers';
 
-import promiseContainer from '../../../modules/promise-container';
-import { getResults } from '../../../modules/firestore/api';
-
-const mapFirebaseData = (props) => ({ results: getResults() });
-
-export default promiseContainer(mapFirebaseData)((props) => (
+const getSurveyFromRouter = props => props.match.params._id;
+export default resultsContainer(getSurveyFromRouter)(({ results }) => (
   <ListGroup>
-    {props.results.map(({ _id, data }) => (
+    {results.map(({ _id, data }) => (
       <ListGroupItem key={_id}>
         {JSON.stringify(data)}
       </ListGroupItem>

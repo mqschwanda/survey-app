@@ -1,6 +1,9 @@
 import firebase from 'firebase';
 import 'firebase/firestore'; // Required for side-effects
 
+import firebaseui from 'firebaseui';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
 import { firebase as config } from '../../config/settings';
 
 firebase.initializeApp(config);
@@ -23,5 +26,9 @@ export const setDoc = (Collection, doc, set) =>
 
 export const addDoc = (Collection, doc, add) =>
   Collection.doc(doc).add(add);
+
+
+export const ui = firebaseui
+export const FirebaseAuth = StyledFirebaseAuth;
 
 export default firebase;

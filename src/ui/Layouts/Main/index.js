@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Jumbotron } from 'reactstrap';
 import logo from '../../../logo.svg';
 
-export const MainLayout = () => (
+export const MainLayout = (props) => (
   <div className='text-center'>
     <Jumbotron fluid>
       <Container fluid>
@@ -20,7 +20,7 @@ export const MainLayout = () => (
       </Container>
     </Jumbotron>
     <Container fluid>
-      {this.props.children}
+      {props.children}
     </Container>
   </div>
 );

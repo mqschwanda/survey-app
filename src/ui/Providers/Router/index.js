@@ -2,12 +2,13 @@ import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import {
+  Authentication,
   Home,
-  Survey,
-  Surveys,
-  SurveyEditor,
-  Results,
   NotFound,
+  Results,
+  Survey,
+  SurveyEditor,
+  Surveys,
 } from '../../Pages';
 
 export const Router = () => (
@@ -22,6 +23,8 @@ export const Router = () => (
       <Route path='/editor/:_id' component={SurveyEditor} />
 
       <Route path='/results/:_id' component={Results} />
+
+      <Route path='/auth' component={Authentication} />
 
       <Route path='*' component={NotFound} />
     </Switch>

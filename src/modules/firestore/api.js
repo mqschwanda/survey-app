@@ -1,4 +1,4 @@
-import {
+import firebase, {
   db,
   getDoc,
   getDocs,
@@ -8,6 +8,7 @@ import {
 
 export const Users = db.collection('users');
 export const getUser = (doc) => getDoc(Users, doc);
+export const getCurrentUser = () => firebase.auth().currentUser;
 export const setUser = (doc, set) => setDoc(Users, doc, set);
 export const addUser = (doc, add) => addDoc(Users, doc, add);
 

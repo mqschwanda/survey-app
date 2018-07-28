@@ -7,9 +7,18 @@ class MainLayout extends Component {
     return (
       <div className='text-center'>
         <Jumbotron fluid>
-          <Container>
-            <img src={logo} className='App-logo' alt='logo' />
-            <h2>Welcome to React with SurveyJS</h2>
+          <Container fluid>
+            <Row>
+              <Col xs='6'>
+                <img src={logo} className='App-logo' alt='logo' />
+              </Col>
+              <Col xs='6'>
+                <img src={logo} className='App-logo' alt='logo' />
+              </Col>
+              <Col xs='12'>
+                <h1>React with SurveyJS</h1>
+              </Col>
+            </Row>
           </Container>
         </Jumbotron>
         <Container fluid>

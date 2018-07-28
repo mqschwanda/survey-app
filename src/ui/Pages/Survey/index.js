@@ -5,39 +5,33 @@ import 'survey-react/survey.css';
 
 import promiseContainer from '../../../modules/promise-container';
 import { Survey, configureWidgets } from '../../../modules/survey';
-import { Surveys, Results, mapDoc } from '../../../modules/firestore';
+import { Surveys, Results, getSurvey } from '../../../modules/firestore';
 
 import('icheck');
+const SurveyComponent = Survey.Survey;
 configureWidgets(Survey);
 window['$'] = window['jQuery'] = $;
-Survey.Survey.cssType = 'bootstrap';
+SurveyComponent.cssType = 'bootstrap';
 
 class App extends Component {
-  onComplete = (result) => {
-    const { data } = result;
-    const _surveyId = this.props.match.params._id;
-    Results
-      .add({ _surveyId, data })
-      .then((doc) => { console.log({ doc }); })
-      .catch((error) => { console.error({ error }); });
-  }
+  onComplete = ({ data }) =>
+    Results.add({ _surveyId: this.props.match.params._id, data })
 
-  buildModel = () =>
-    new Survey.Model(this.props.survey)
+  getModel = (props = this.props) =>
+    new Survey.Model(props.survey)
 
   render() {
     return (
-      <Survey.Survey
-        model={this.buildModel()}
+      <SurveyComponent
+        model={this.getModel()}
         onComplete={this.onComplete}
-        onValueChanged={this.onValueChanged}
       />
     );
   }
 }
 
 const surveyContainer = promiseContainer((props) => ({
-  survey: Surveys.doc(props.match.params._id).get().then(mapDoc),
+  survey: getSurvey(props.match.params._id),
 }));
 
 export default surveyContainer(App);

@@ -1,5 +1,5 @@
 import './modules/firestore';
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import firebase, { ui, FirebaseAuth } from '../../../modules/firestore';
 import { Main } from '../../Layouts';
+// import { withUser } from '../../Providers';
+
 
 class Authentication extends Component {
   config = { // Configure FirebaseUI.

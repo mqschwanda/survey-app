@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/firestore'; // Required for side-effects
+import 'firebase/auth';
 
 import firebaseui from 'firebaseui';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -7,9 +8,9 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { firebase as config } from '../../config/settings';
 
 firebase.initializeApp(config);
-
 // Initialize Cloud Firestore through Firebase
 export const db = firebase.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 export const mapDoc = doc => doc.exists && { _id: doc.id, ...doc.data() };
 
@@ -30,5 +31,7 @@ export const addDoc = (Collection, add) =>
 
 export const ui = firebaseui
 export const FirebaseAuth = StyledFirebaseAuth;
+
+// firebase.auth().onAuthStateChanged((user) => console.log({ user }));
 
 export default firebase;

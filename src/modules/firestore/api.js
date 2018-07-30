@@ -6,11 +6,24 @@ import firebase, {
   addDoc,
 } from './';
 
-export const Users = db.collection('users');
-export const getUser = (doc) => getDoc(Users, doc);
 export const getCurrentUser = () => firebase.auth().currentUser;
-export const addUser = (add) => addDoc(Users, add);
-export const setUser = (doc, set) => setDoc(Users, doc, set);
+export const getUser = () => new Promise((resolve, reject) => {
+  try {
+    resolve(firebase.auth().currentUser);
+  } catch (error) {
+    reject(error);
+  }
+});
+
+export const setUser = (set) => getCurrentUser().updateProfile(set);
+export const signInUser = (user) => {
+  const { email, password } = user;
+  if (email && password) {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  }
+};
+export const signInAnonymously = () => firebase.auth().signInAnonymously();
+export const signOutUser = () => firebase.auth().signOut();
 
 export const Surveys = db.collection('surveys');
 export const getSurvey = (doc) => getDoc(Surveys, doc);

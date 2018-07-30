@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import 'surveyjs-editor/surveyeditor.css';
 
-import promiseContainer from '../../../modules/promise-container';
 import {
   SurveyJSEditor,
   SurveyKnockout,

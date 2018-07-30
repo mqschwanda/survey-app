@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React, { Component } from 'react';
+import React from 'react';
 import 'survey-react/survey.css';
 import { Survey, configureWidgets } from '../../../modules/survey';
 

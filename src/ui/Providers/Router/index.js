@@ -21,14 +21,21 @@ import {
   userContainer,
 } from '../../../modules/firestore/containers';
 
+const AuthorizedRoute = userContainer(({ user, component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (user
+    ? <Component {...props} />
+    : <Redirect to='/sign-in' />
+  )} />
+));
+
 export const Router = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/' component={userContainer(Home)} />
-      <Route exact path='/surveys' component={Surveys} />
-      <Route exact path='/surveys/:_id' component={Survey} />
-      <Route exact path='/editor/:_id' component={SurveyEditor} />
-      <Route exact path='/results/:_id' component={Results} />
+      <AuthorizedRoute exact path='/' component={Home} />
+      <AuthorizedRoute exact path='/surveys' component={Surveys} />
+      <AuthorizedRoute exact path='/surveys/:_id' component={Survey} />
+      <AuthorizedRoute exact path='/editor/:_id' component={SurveyEditor} />
+      <AuthorizedRoute exact path='/results/:_id' component={Results} />
       <Route exact path='/sign-in' component={Authentication} />
       <Route
         exact

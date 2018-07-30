@@ -3,7 +3,7 @@ import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 import { addSurvey } from '../../../modules/firestore/api';
 import { surveysContainer } from '../../../modules/firestore/containers';
-
+import { Main } from '../../Layouts';
 
 class SurveysComponent extends Component {
   goToSurvey = (_id) => (/* hack onClick func call */) =>
@@ -14,21 +14,23 @@ class SurveysComponent extends Component {
 
   render() {
     return (
-      <ListGroup>
-        <ListGroupItem>
-          <Button onClick={this.createNewSurvey}>
-            Create New Survey
-          </Button>
-        </ListGroupItem>
-        {this.props.surveys.map(({ _id, title }) => (
-          <ListGroupItem
-            key={_id}
-            onClick={this.goToSurvey(_id)}
-          >
-            {title}
+      <Main>
+        <ListGroup>
+          <ListGroupItem>
+            <Button onClick={this.createNewSurvey}>
+              Create New Survey
+            </Button>
           </ListGroupItem>
-        ))}
-      </ListGroup>
+          {this.props.surveys.map(({ _id, title }) => (
+            <ListGroupItem
+              key={_id}
+              onClick={this.goToSurvey(_id)}
+            >
+              {title}
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      </Main>
     );
   }
 }

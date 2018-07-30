@@ -1,7 +1,7 @@
 import { routerMiddleware } from 'react-router-redux';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 
-export const history = (typeof window != 'undefined' && window.document) // Create a history depending on server or client
+export const history = (typeof window !== 'undefined' && window.document) // Create a history depending on server or client
   ? createBrowserHistory()
   : createMemoryHistory();
 

@@ -1,7 +1,5 @@
 import firebase from 'firebase';
 import 'firebase/firestore'; // Required for side-effects
-import 'firebase/auth';
-
 import firebaseui from 'firebaseui';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
@@ -28,10 +26,7 @@ export const setDoc = (Collection, doc, set) =>
 export const addDoc = (Collection, add) =>
   Collection.add(add);
 
-
 export const ui = firebaseui
 export const FirebaseAuth = StyledFirebaseAuth;
-
-// firebase.auth().onAuthStateChanged((user) => console.log({ user }));
 
 export default firebase;

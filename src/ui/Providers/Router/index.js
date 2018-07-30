@@ -24,7 +24,8 @@ import {
 const AuthorizedRoute = userContainer(({ user, component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (user
     ? <Component {...props} />
-    : <Redirect to='/sign-in' />
+    : <Authentication signInSuccessUrl={rest.path} {...props} />
+    // : <Redirect to='/sign-in' />
   )} />
 ));
 

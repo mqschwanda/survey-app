@@ -28,14 +28,19 @@ export const resultsContainer = apiContainer('results', getResults);
 export const signOutUserContainer = apiContainer('signedOutUser', signOutUser);
 
 export const userContainer = (Component) => class UserContainer extends PureComponent {
+  static defaultProps = {
+    LoadingComponent: Loading,
+  }
   constructor(props) {
     super(props);
     this.state = { user: null, ready: false };
-    this.unsubscribe = firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
+  }
+  componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(this.onAuthStateChanged); // Listen to the Firebase Auth state and set the local state.
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribe(); // Make sure we un-register Firebase observers when the component unmounts.
   }
 
   onAuthStateChanged = (user) => {
@@ -45,6 +50,6 @@ export const userContainer = (Component) => class UserContainer extends PureComp
   render() {
     return this.state.ready
       ? <Component user={this.state.user} {...this.props} />
-      : <Loading />;
+      : <this.props.LoadingComponent />;
   }
 }

@@ -17,13 +17,10 @@ export class SurveyEditor extends Component {
     _id: 'SurveyEditor',
     options: { showEmbededSurveyTab: true },
   }
-  constructor(props) {
-    super(props);
-    this.configureEditor(props);
+
+  componentDidMount() {
+    this.configureEditor();
   }
-  // componentDidMount() {
-  //   this.configureSurvey();
-  // }
 
   configureEditor = (props = this.props) => {
     this.editor = new SurveyJSEditor.SurveyEditor(props._id, props.options);

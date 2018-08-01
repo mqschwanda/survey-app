@@ -8,7 +8,7 @@ const getSurveyFromRouter = props => props.match.params._id;
 export default resultsContainer(getSurveyFromRouter)(({ results }) => (
   <Main>
     <ListGroup>
-      {results.map(({ _id, data }) => (
+      {results.length && results.map(({ _id, data }) => (
         <ListGroupItem key={_id}>
           {JSON.stringify(data)}
         </ListGroupItem>

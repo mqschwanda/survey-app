@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { FirebaseAuthentication } from '../../../modules/firestore/components';
 import get from '../../../modules/get';
 import { Main } from '../../Layouts';

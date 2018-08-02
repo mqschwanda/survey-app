@@ -30,3 +30,12 @@ export const ui = firebaseui
 export const FirebaseAuth = StyledFirebaseAuth;
 
 export default firebase;
+
+// const survey = firebase.database().ref('/surveys/jh1ybANzUrlB71DZWyBu');;
+// survey.on('value', (snapshot) => { console.log(snapshot.val()); });
+//
+// const set = { username: 'name', email: 'email', profile_picture: 'imageUrl' };
+// const callback = (error) =>
+//   error ? console.log({ error }) : console.log({ set });
+// 
+// survey.set(set, callback);

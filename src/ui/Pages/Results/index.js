@@ -3,14 +3,19 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 
 import { resultsContainer } from '../../../modules/firestore/containers';
 import { Main } from '../../Layouts';
+import { db } from '../../../modules/firestore';
+import { firestoreContainer } from '../../../modules/firestore/containers';
 
-const getSurveyFromRouter = props => props.match.params._id;
-export default resultsContainer(getSurveyFromRouter)(({ results }) => (
+const getResults = (props) =>
+  db.collection('results').where('_surveyId', '==', props.match.params._id);
+const container = firestoreContainer(getResults);
+
+export default container(({ firestore: { data: results } }) => (
   <Main>
     <ListGroup>
-      {results.length && results.map(({ _id, data }) => (
-        <ListGroupItem key={_id}>
-          {JSON.stringify(data)}
+      {results && results.map(({ querySnapshot, data: result }) => (
+        <ListGroupItem key={querySnapshot.id}>
+          {JSON.stringify(result)}
         </ListGroupItem>
       ))}
     </ListGroup>

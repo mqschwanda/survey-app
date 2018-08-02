@@ -19,13 +19,13 @@ const mapToPromiseContainer = (mapper = (d) => d) => (
   (doc) => promiseContainer(mapper(doc))
 );
 
-const apiContainer = (...args) =>
+const firestoreApiContainer = (...args) =>
   mapToPromiseContainer(mapPromiseData(...args));
 
-export const surveyContainer = apiContainer('survey', getSurvey);
-export const surveysContainer = apiContainer('surveys', getSurveys);
-export const resultsContainer = apiContainer('results', getResults);
-export const signOutUserContainer = apiContainer('signedOutUser', signOutUser);
+export const surveyContainer = firestoreApiContainer('survey', getSurvey);
+export const surveysContainer = firestoreApiContainer('surveys', getSurveys);
+export const resultsContainer = firestoreApiContainer('results', getResults);
+export const signOutUserContainer = firestoreApiContainer('signedOutUser', signOutUser);
 
 export const userContainer = (Component) => class UserContainer extends PureComponent {
   static defaultProps = {
@@ -33,7 +33,8 @@ export const userContainer = (Component) => class UserContainer extends PureComp
   }
   constructor(props) {
     super(props);
-    this.state = { user: null, ready: false };
+    this.reacy = false
+    this.state = { user: null };
   }
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged(this.onAuthStateChanged); // Listen to the Firebase Auth state and set the local state.
@@ -44,12 +45,91 @@ export const userContainer = (Component) => class UserContainer extends PureComp
   }
 
   onAuthStateChanged = (user) => {
-    this.setState({ user, ready: true });
+    this.ready = true;
+    this.setState({ user });
   }
 
   render() {
-    return this.state.ready
+    return this.ready
       ? <Component user={this.state.user} {...this.props} />
       : <this.props.LoadingComponent />;
   }
 }
+
+
+const mapDoc = (querySnapshot) => ({ querySnapshot, data: querySnapshot.data() });
+
+const mapDocs = (querySnapshot) => {
+  const data = [];
+
+  querySnapshot.forEach((doc) => data.push(mapDoc(doc)));
+
+  return { querySnapshot, data };
+};
+
+const mapData = (querySnapshot) =>
+  querySnapshot.docs && querySnapshot.docs.length
+    ? mapDocs(querySnapshot)
+    : mapDoc(querySnapshot);
+
+const injectQuerySnapshot = (handleQuerySnapshot) => (querySnapshot) => ({
+  querySnapshot,
+  ...handleQuerySnapshot(querySnapshot),
+});
+
+const defaultMapQuerySnapshot = injectQuerySnapshot(mapData);
+
+export const firestoreContainer = (doc, mapQuerySnapshot = defaultMapQuerySnapshot) => (Component, LoadingComponent = () => null) =>
+  class FirestoreContainer extends PureComponent {
+    constructor(props) {
+      super(props);
+      this.state = {};
+      this.unsubscribe = this.getSnapshot(props);
+    }
+
+    componentWillUnmount() {
+      this.unsubscribe();
+    }
+
+    getDoc = (props = this.props) =>
+      typeof doc === 'function' ? doc(props) : doc
+
+    getSnapshot = (props = this.props) =>
+      this.getDoc(props).onSnapshot(this.onSnapshot)
+
+    onSnapshot = (querySnapshot) =>
+      this.setState(mapQuerySnapshot(querySnapshot))
+
+    render() {
+      return this.state !== {}
+        ? <Component firestore={this.state} {...this.props} />
+        : <LoadingComponent />;
+    }
+  }
+
+// export const firestoreRefContainer = (ref, mapDataSnapshot = (DataSnapshot) => ({ DataSnapshot })) => (Component, LoadingComponent = () => null) =>
+//   class ListenerContainer extends PureComponent {
+//     constructor(props) {
+//       super(props);
+//       this.ref = this.getRef(props);
+//     }
+//     componentDidMount() {
+//       this.ref.on('value', this.onValue);
+//     }
+//
+//     componentWillUnmount() {
+//       this.ref.off();
+//     }
+//
+//     getRef = (props = this.props) =>
+//       firebase.database().ref(typeof ref === 'string' ? ref : ref(props))
+//
+//     onValue = (DataSnapshot) =>
+//       this.setState(mapDataSnapshot(DataSnapshot))
+//
+//     render() {
+//       return this.state !== {}
+//         ? <Component {...{ ...this.props, ...this.state }} />
+//         : <LoadingComponent />;
+//     }
+//   }

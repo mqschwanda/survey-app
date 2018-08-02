@@ -4,6 +4,11 @@ import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { addSurvey } from '../../../modules/firestore/api';
 import { surveysContainer } from '../../../modules/firestore/containers';
 import { Main } from '../../Layouts';
+import { db } from '../../../modules/firestore';
+import { firestoreContainer } from '../../../modules/firestore/containers';
+
+const Surveys = db.collection('surveys');
+const container = firestoreContainer(Surveys);
 
 class SurveysComponent extends Component {
   goToSurvey = (_id) => (/* hack onClick func call */) =>
@@ -21,7 +26,7 @@ class SurveysComponent extends Component {
               Create New Survey
             </Button>
           </ListGroupItem>
-          {this.props.surveys.map(({ _id, title }) => (
+          {this.props.firestore.data && this.props.firestore.data.map(({ _id, title }) => (
             <ListGroupItem
               key={_id}
               onClick={this.goToSurvey(_id)}
@@ -35,4 +40,4 @@ class SurveysComponent extends Component {
   }
 }
 
-export default surveysContainer()(SurveysComponent);
+export default container(SurveysComponent);

@@ -3,14 +3,12 @@ import React from 'react';
 import { Survey } from '../../Components';
 import { addResult, getCurrentUser } from '../../../modules/firestore/api';
 import { db } from '../../../modules/firestore';
-import {
-  firestoreContainer,
-} from '../../../modules/firestore/containers';
+import { querySnapshotContainer } from '@mqschwanda/firebase-containers';
 
 const getSurvey = (props) =>
   db.collection('surveys').doc(props.match.params._id);
 
-const container = firestoreContainer(getSurvey);
+const container = querySnapshotContainer(getSurvey);
 export default container(({ firestore: { data: survey, querySnapshot } }) => (
   <Survey
     survey={survey}

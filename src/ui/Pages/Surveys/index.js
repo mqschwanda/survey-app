@@ -5,10 +5,10 @@ import { addSurvey } from '../../../modules/firestore/api';
 import { surveysContainer } from '../../../modules/firestore/containers';
 import { Main } from '../../Layouts';
 import { db } from '../../../modules/firestore';
-import { firestoreContainer } from '../../../modules/firestore/containers';
+import { querySnapshotContainer } from '@mqschwanda/firebase-containers';
 
 const Surveys = db.collection('surveys');
-const container = firestoreContainer(Surveys);
+const container = querySnapshotContainer(Surveys);
 
 class SurveysComponent extends Component {
   goToSurvey = (_id) => (/* hack onClick func call */) =>
@@ -18,6 +18,7 @@ class SurveysComponent extends Component {
       .then(({ id }) => this.goToSurvey(id)(/* hack onClick func call */))
 
   render() {
+    console.log(this.props.firestore);
     return (
       <Main>
         <ListGroup>
@@ -26,14 +27,15 @@ class SurveysComponent extends Component {
               Create New Survey
             </Button>
           </ListGroupItem>
-          {this.props.firestore.data && this.props.firestore.data.map(({ _id, title }) => (
+          {this.props.firestore.data &&
+            this.props.firestore.data.map(({ querySnapshot, data }) =>
             <ListGroupItem
-              key={_id}
-              onClick={this.goToSurvey(_id)}
+              key={querySnapshot.id}
+              onClick={this.goToSurvey(querySnapshot.id)}
             >
-              {title}
+              {data.title}
             </ListGroupItem>
-          ))}
+          )}
         </ListGroup>
       </Main>
     );

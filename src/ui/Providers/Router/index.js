@@ -39,7 +39,7 @@ export const Router = () => (
     <Switch>
       <AuthorizedRoute exact path='/' component={Home} />
       <AuthorizedRoute exact path='/surveys' component={Surveys} />
-      <AuthorizedRoute exact path='/surveys/:_id' component={Survey} />
+      <Route exact path='/surveys/:_id' component={Survey} />
       <AuthorizedRoute exact path='/editor/:_id' component={SurveyEditor} />
       <AuthorizedRoute exact path='/results/:_id' component={Results} />
       <Route exact path='/sign-in' component={Authentication} />

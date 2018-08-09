@@ -2,7 +2,7 @@ import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { querySnapshotContainer } from '@mqschwanda/firebase-containers';
 
-import { resultsContainer } from '../../../modules/firestore/containers';
+// import { resultsContainer } from '../../../modules/firestore/containers';
 import { Main } from '../../Layouts';
 import { db } from '../../../modules/firestore';
 

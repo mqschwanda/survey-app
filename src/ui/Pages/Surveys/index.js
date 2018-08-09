@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, Button } from 'reactstrap';
 
 import { addSurvey } from '../../../modules/firestore/api';
-import { surveysContainer } from '../../../modules/firestore/containers';
 import { Main } from '../../Layouts';
 import { db } from '../../../modules/firestore';
 import { querySnapshotContainer } from '@mqschwanda/firebase-containers';
@@ -18,7 +17,7 @@ class SurveysComponent extends Component {
       .then(({ id }) => this.goToSurvey(id)(/* hack onClick func call */))
 
   render() {
-    console.log(this.props.firestore);
+    // console.log(this.props.firestore);
     return (
       <Main>
         <ListGroup>

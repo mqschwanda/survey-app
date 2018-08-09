@@ -3,7 +3,7 @@ import React from 'react';
 import 'survey-react/survey.css';
 import { Survey, configureWidgets } from '../../../modules/survey';
 
-import('icheck');
+import 'icheck';
 configureWidgets(Survey);
 window['$'] = window['jQuery'] = $;
 Survey.Survey.cssType = 'bootstrap';
